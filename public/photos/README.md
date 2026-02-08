@@ -1,10 +1,5 @@
 # Add your photos here
 
-Place your Valentine photos in this folder and name them:
-- 1.jpg
-- 2.jpg
-- 3.jpg
-- 4.jpg
-- 5.jpg
+Place your Valentine photos in this folder. Use `.jpeg` or `.jpg` and add the filename to the `PHOTOS` array in `src/App.jsx`.
 
-You can add more by editing the `PHOTOS` array in `src/App.jsx`.
+Current photos: 1.jpeg through 13.jpeg, plus any WhatsApp images you add.

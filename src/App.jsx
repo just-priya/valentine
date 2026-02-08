@@ -34,7 +34,7 @@ const REASONS = [
 // Add your photo filenames here (place files in public/photos/)
 const PHOTOS = [
   "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg",
-  "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg", "11.jpeg", "12.jpeg", "13.jpeg",
+  "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg", "11.jpeg", "12.jpeg", "13.jpeg", "14.jpeg",
   "WhatsApp Image 2026-02-08 at 12.40.06 PM.jpeg",
   "WhatsApp Image 2026-02-08 at 12.40.07 PM (1).jpeg",
 ];
@@ -49,13 +49,14 @@ const PHOTO_CAPTIONS = [
   "Thank you for every ordinary day. 💕",
   "You make my world brighter. ❤️",
   "Together is my favourite place to be. 🏠",
-  "My person. My home. My always. 💝",
+  "God placed your hand in mine. Now we walk together, forever. 💝",
   "Here's to us—and all our best moments. 📸",
   "Love you more every day. 💕",
   "Every snapshot, every memory—with you. 💝",
-  "Our story, one frame at a time. 💕",
-  "Here's to us. Always. ❤️",
-  "One more reason to smile. 💕",
+  "One more reason to smile. 💕 💕",
+  "First dance as Mr. & Mrs. 🤍",
+  "Flower over my head, love by my side 🌸🤍",
+  "You don't just give me flowers, you make me feel cherished. 💕",
 ];
 
 // Add your Tamil love song as public/songs/love-song.mp3
@@ -71,6 +72,12 @@ function App() {
     width: typeof window !== "undefined" ? window.innerWidth : 800,
     height: typeof window !== "undefined" ? window.innerHeight : 600,
   });
+
+  const flipbookSize = windowSize.width <= 480
+    ? { width: Math.min(300, windowSize.width - 32), height: 420 }
+    : windowSize.width <= 600
+      ? { width: 340, height: 460 }
+      : { width: 380, height: 520 };
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [albumOpen, setAlbumOpen] = useState(false);
   const [albumPhotoIndex, setAlbumPhotoIndex] = useState(0);
@@ -140,6 +147,13 @@ function App() {
   }, [playMusic]);
 
   useEffect(() => {
+    const handleResize = () =>
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     if (!albumOpen) return;
     const handleKey = (e) => {
       if (e.key === "Escape") closeAlbum();
@@ -198,7 +212,7 @@ function App() {
             <div className="heart-icon" aria-hidden="true">
               ❤️
             </div>
-            <h1 className="title">Hey partner.</h1>
+            <h1 className="title">Hey Sairam.</h1>
             <p className="subtitle">Your partner made something for you.</p>
             <button
               type="button"
@@ -358,8 +372,8 @@ function App() {
                   <div className="flipbook-container">
                     <HTMLFlipBook
                       ref={bookRef}
-                      width={380}
-                      height={520}
+                      width={flipbookSize.width}
+                      height={flipbookSize.height}
                       size="fixed"
                       drawShadow
                       flippingTime={600}
