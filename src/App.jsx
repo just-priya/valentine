@@ -1,13 +1,18 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import Confetti from "react-confetti";
 import HTMLFlipBook from "react-pageflip";
+import { useConfig } from "./useConfig";
+import { SettingsPanel } from "./SettingsPanel";
 import "./App.css";
+
+const getPhotoSrc = (photo) =>
+  typeof photo === "string" && photo.startsWith("data:") ? photo : `/photos/${photo}`;
 
 const Page = React.forwardRef(({ photo, caption }, ref) => (
   <div className="flip-page" ref={ref}>
     <div className="flip-page-content">
       <div className="flip-page-img-wrap">
-        <img src={`/photos/${photo}`} alt={caption} className="flip-page-img" />
+        <img src={getPhotoSrc(photo)} alt={caption} className="flip-page-img" />
       </div>
       <p className="flip-page-caption">{caption}</p>
     </div>
@@ -16,53 +21,15 @@ const Page = React.forwardRef(({ photo, caption }, ref) => (
 
 const FLOATING_HEARTS = ["❤️", "💕", "💗", "💖", "💝", "❤️", "💕", "💗", "💖", "💝"];
 
-const LETTER_LINES = [
-  "I've been thinking about us, and I just wanted to put my feelings into words.",
-  "It's the little things that mean the most to me — the way you lovingly cook special things for me, your smile when something makes you laugh, the comfort of just being with you.",
-  "You make my ordinary days feel special, and my life feels better because of you. I don't say it enough, but I truly cherish you.",
-  "Happy Valentine's. I made this with a lot of love, just like what I feel for you.",
-];
-
-const REASONS = [
-  "You encourage me. Always.",
-  "You console me when I'm down.",
-  "You listen to me—all my polambals.",
-  "You never raise your voice at me.",
-  "You support me in whatever I do.",
-];
-
-// Add your photo filenames here (place files in public/photos/)
-const PHOTOS = [
-  "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg",
-  "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg", "11.jpeg", "12.jpeg", "13.jpeg", "14.jpeg",
-  "WhatsApp Image 2026-02-08 at 12.40.06 PM.jpeg",
-  "WhatsApp Image 2026-02-08 at 12.40.07 PM (1).jpeg",
-];
-
-// Catchy lovable sentences for each photo (edit to match your photos)
-const PHOTO_CAPTIONS = [
-  "This is us. And I wouldn't want it any other way. 💕",
-  "You + me = my favourite equation. ❤️",
-  "Every moment with you feels like coming home. 🏠",
-  "Life is better with you in the frame. 📸",
-  "Forever isn't long enough. Here's to us. 💝",
-  "Every normal day feels special because of you. 💕",
-  "You make my world brighter. ❤️",
-  "Together is my favourite place to be. 🏠",
-  "God placed your hand in mine. Now we walk together, forever. 💝",
-  "Here's to us—and all our best moments. 📸",
-  "Love you more every day. 💕",
-  "Every snapshot, every memory—with you. 💝",
-  "One more reason to smile. 💕 💕",
-  "First dance as Mr. & Mrs. 🤍",
-  "Flower over my head, love by my side 🌸🤍",
-  "You don't just give me flowers, you make me feel cherished. 💕",
-];
-
-// Add your Tamil love song as public/songs/love-song.mp3
-const SONG_PATH = "/songs/love-song.mp3";
-
 function App() {
+  const { config, saveConfig, resetConfig } = useConfig();
+  const [showSettings, setShowSettings] = useState(false);
+
+  const LETTER_LINES = config.letterLines || [];
+  const REASONS = config.reasons || [];
+  const PHOTOS = config.photos || [];
+  const PHOTO_CAPTIONS = config.photoCaptions || [];
+  const SONG_PATH = config.songPath || "/songs/love-song.mp3";
   const [step, setStep] = useState("landing");
   const [letterLineIndex, setLetterLineIndex] = useState(0);
   const [noButtonPos, setNoButtonPos] = useState({ x: 55, y: 55 });
@@ -179,6 +146,15 @@ function App() {
       <audio ref={audioRef} src={SONG_PATH} loop />
       <button
         type="button"
+        className="settings-toggle"
+        onClick={() => setShowSettings(true)}
+        title="Customize"
+        aria-label="Customize"
+      >
+        ⚙️
+      </button>
+      <button
+        type="button"
         className="music-toggle"
         onClick={toggleMusic}
         title={isMusicPlaying ? "Pause music" : "Play music"}
@@ -212,8 +188,8 @@ function App() {
             <div className="heart-icon" aria-hidden="true">
               ❤️
             </div>
-            <h1 className="title">Hey Sairam.</h1>
-            <p className="subtitle">Your partner made something for you.</p>
+            <h1 className="title">Hey {config.recipientName}.</h1>
+            <p className="subtitle">{config.landingSubtitle}</p>
             <button
               type="button"
               className="cta-button primary"
@@ -230,7 +206,7 @@ function App() {
         {step === "letter" && (
           <div className="letter-box slide">
             <div className="letter-content">
-              <p className="letter-intro">From your partner.</p>
+              <p className="letter-intro">{config.letterIntro}</p>
               {LETTER_LINES.slice(0, Math.min(letterLineIndex + 1, LETTER_LINES.length)).map((line, i) => (
                 <p
                   key={i}
@@ -291,11 +267,16 @@ function App() {
             </div>
             <h2 className="success-title">Yes. ❤️</h2>
             <p className="success-message success-main">
-              You're my person. I'm glad we're doing everything together.
+              {config.successMainMessage}
             </p>
             <p className="success-message">
-              Happy Valentine's Day thango! You make my life brighter, happier, and more beautiful every day.
-        
+              {config.valentineMessage}
+              {config.footerSignOff && (
+                <>
+                  {" "}
+                  {config.footerSignOff}
+                </>
+              )}
             </p>
             <div className="reasons-section">
               <p className="reasons-label">Little things that make me love you more:</p>
@@ -337,7 +318,7 @@ function App() {
                     >
                       <div className="photo-frame">
                         <img
-                          src={`/photos/${photo}`}
+                          src={getPhotoSrc(photo)}
                           alt={`Photo ${i + 1}`}
                           className="photo-img photo-animate"
                           style={{ animationDelay: `${i * 0.05}s` }}
@@ -414,6 +395,14 @@ function App() {
           </div>
         )}
       </div>
+
+      <SettingsPanel
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        config={config}
+        onSave={saveConfig}
+        onReset={resetConfig}
+      />
     </>
   );
 }

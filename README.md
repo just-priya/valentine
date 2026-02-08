@@ -1,16 +1,47 @@
-# React + Vite
+# Valentine's Day App 💕
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personalized Valentine's Day web app with a love letter, photo album, and sweet messages for your partner.
 
-Currently, two official plugins are available:
+## Customize for Your Love
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Edit **`src/config.js`** to add your own photos, messages, and personal touches. No coding experience needed.
 
-## React Compiler
+### What You Can Customize
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Setting | Description |
+|---------|-------------|
+| **recipientName** | Name shown on the landing page (e.g. "Hey Sairam.") |
+| **landingSubtitle** | Subtitle under the name |
+| **letterIntro** | Intro for the letter (e.g. "From your partner.") |
+| **letterLines** | Each line of your love letter (appears one by one) |
+| **reasons** | "Little things that make me love you more" — one per slide |
+| **photos** | Photo filenames (place images in `public/photos/`) |
+| **photoCaptions** | Caption for each photo (same order as photos) |
+| **successMainMessage** | Message after they say Yes |
+| **valentineMessage** | Your Valentine's Day message |
+| **songPath** | Path to your love song (place in `public/songs/`) |
 
-## Expanding the ESLint configuration
+### Adding Photos
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Add your image files to the `public/photos/` folder (e.g. `1.jpeg`, `2.jpeg`, or any filename)
+2. Add the filenames to `config.photos` in `src/config.js`
+3. Add a matching caption for each photo in `config.photoCaptions`
+
+### Adding Your Song
+
+Place your audio file (e.g. `love-song.mp3`) in `public/songs/` and set `songPath` in config.
+
+---
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```

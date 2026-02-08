@@ -304,6 +304,27 @@
   opacity: 0.7;
 }
 
+/* Settings toggle */
+.settings-toggle {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.2s;
+}
+
+.settings-toggle:hover {
+  transform: scale(1.08);
+}
+
 /* Music toggle */
 .music-toggle {
   position: fixed;
@@ -509,6 +530,11 @@
 
   .funny-footer {
     font-size: 0.85rem;
+  }
+
+  .settings-toggle {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
   }
 
   .music-toggle {
