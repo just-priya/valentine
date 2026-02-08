@@ -46,7 +46,7 @@ const PHOTO_CAPTIONS = [
   "Every moment with you feels like coming home. 🏠",
   "Life is better with you in the frame. 📸",
   "Forever isn't long enough. Here's to us. 💝",
-  "Thank you for every ordinary day. 💕",
+  "Every normal day feels special because of you. 💕",
   "You make my world brighter. ❤️",
   "Together is my favourite place to be. 🏠",
   "God placed your hand in mine. Now we walk together, forever. 💝",
@@ -294,8 +294,8 @@ function App() {
               You're my person. I'm glad we're doing everything together.
             </p>
             <p className="success-message">
-              Happy Valentine's Day! You make my life brighter, happier, and more beautiful every day.
-              — Your partner
+              Happy Valentine's Day thango! You make my life brighter, happier, and more beautiful every day.
+        
             </p>
             <div className="reasons-section">
               <p className="reasons-label">Little things that make me love you more:</p>
